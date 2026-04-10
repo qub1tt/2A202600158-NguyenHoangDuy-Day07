@@ -53,7 +53,12 @@ class OpenAIEmbedder:
         self._backend_name = model_name
         self.client = OpenAI()
 
+    # ~4 chars per token, leave headroom below 8192-token limit
+    _MAX_CHARS = 24_000
+
     def __call__(self, text: str) -> list[float]:
+        if len(text) > self._MAX_CHARS:
+            text = text[: self._MAX_CHARS]
         response = self.client.embeddings.create(model=self.model_name, input=text)
         return [float(value) for value in response.data[0].embedding]
 

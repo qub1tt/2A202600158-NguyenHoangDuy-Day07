@@ -16,4 +16,5 @@ __pycache__/
 .idea/
 .omx/
 .venv/
+rag/
 src_w_solution/
